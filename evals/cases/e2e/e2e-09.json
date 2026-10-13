@@ -1,0 +1,44 @@
+{
+  "case_id": "e2e-09",
+  "name": "修复 solution.py 的数值排序；升序、保留重复值且不修改输入列表。",
+  "category": "code_fix",
+  "fixtures": [
+    {
+      "source": "e2e-09"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "pytest",
+      "test_id": "sort"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "solution.py"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "pilot"
+  ],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "solution.py",
+          "content": "def solve(values):\n    return sorted(values)\n"
+        }
+      }
+    ]
+  ],
+  "goal": "修复 solution.py 的数值排序；升序、保留重复值且不修改输入列表。"
+}

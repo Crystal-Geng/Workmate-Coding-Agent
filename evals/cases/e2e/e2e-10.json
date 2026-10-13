@@ -1,0 +1,44 @@
+{
+  "case_id": "e2e-10",
+  "name": "修复 solution.py 的 ISO 日期解析，输入 YYYY-MM-DD，非法日期抛",
+  "category": "code_fix",
+  "fixtures": [
+    {
+      "source": "e2e-10"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "pytest",
+      "test_id": "date"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "solution.py"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "pilot"
+  ],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "solution.py",
+          "content": "from datetime import datetime\ndef solve(value):\n    return datetime.strptime(value, '%Y-%m-%d').date().isoformat()\n"
+        }
+      }
+    ]
+  ],
+  "goal": "修复 solution.py 的 ISO 日期解析，输入 YYYY-MM-DD，非法日期抛 ValueError。"
+}

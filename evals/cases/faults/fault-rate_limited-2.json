@@ -1,0 +1,52 @@
+{
+  "case_id": "fault-rate_limited-2",
+  "name": "rate_limited scenario 2: 将 settings.json 的 enabled 改为 true，精确保留所有其他字段。",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-02"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "json",
+      "path": "settings.json",
+      "source": "e2e-02/settings.json",
+      "fields": {
+        "enabled": true
+      },
+      "preserve_other_fields": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "settings.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault"
+  ],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import json; from pathlib import Path; p=Path('\"'\"'settings.json'\"'\"'); d=json.loads(p.read_text()); d['\"'\"'enabled'\"'\"']=True; p.write_text(json.dumps(d))'"
+        }
+      }
+    ]
+  ],
+  "goal": "将 settings.json 的 enabled 改为 true，精确保留所有其他字段。",
+  "fault_spec": {
+    "kind": "rate_limited",
+    "target": "bash"
+  }
+}

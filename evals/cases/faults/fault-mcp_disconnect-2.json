@@ -1,0 +1,59 @@
+{
+  "case_id": "fault-mcp_disconnect-2",
+  "name": "mcp_disconnect scenario 2: 将 settings.json 的 enabled 改为 true，精确保留所有其他字段。",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-01"
+    },
+    {
+      "source": "mcp-update"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "mcp.txt",
+      "expected": "existing\nlocal-mcp-value-37\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "mcp.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault",
+    "local_mcp",
+    "mcp_append"
+  ],
+  "script": [
+    [
+      {
+        "name": "read_file",
+        "input": {
+          "path": "mcp.txt"
+        }
+      }
+    ],
+    [
+      {
+        "name": "eval__lookup",
+        "input": {}
+      }
+    ]
+  ],
+  "goal": "读取 mcp.txt 的现有内容，调用 eval__lookup，将返回值加换行恰好追加一次。不可用时报告失败，不猜测数据。",
+  "fault_spec": {
+    "kind": "mcp_disconnect",
+    "target": "eval__lookup"
+  }
+}

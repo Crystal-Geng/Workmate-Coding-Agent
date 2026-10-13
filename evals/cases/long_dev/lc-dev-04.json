@@ -1,0 +1,76 @@
+{
+  "case_id": "lc-dev-04",
+  "name": "dev source conflict",
+  "category": "long_context",
+  "goal": "根据历史中的最终要求完成剩余任务，将精确结果写入 result.json；不要采用已废弃值或重复已完成副作用。",
+  "fixtures": [
+    {
+      "source": "long/lc-dev-04"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "result.json",
+      "expected": {
+        "value": 61,
+        "source": "final table",
+        "ignored": 58
+      },
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "result.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "source.txt"
+  ],
+  "tags": [
+    "long_context",
+    "development"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-dev-04.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "正式表值为 61",
+    "草稿值 58 作废",
+    "最终使用正式表"
+  ],
+  "metadata": {
+    "split": "development",
+    "task_type": "document_processing",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic task; not represented as a real project trace.",
+    "context_length_bucket": "medium",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "result.json",
+          "content": "{\"value\": 61, \"source\": \"final table\", \"ignored\": 58}"
+        }
+      }
+    ]
+  ]
+}

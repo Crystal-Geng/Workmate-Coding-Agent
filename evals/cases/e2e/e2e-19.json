@@ -1,0 +1,47 @@
+{
+  "case_id": "e2e-19",
+  "name": "用 write_file 将 source.txt 的内容写到 approved.txt，",
+  "category": "permission",
+  "fixtures": [
+    {
+      "source": "e2e-19"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "approved.txt",
+      "source": "e2e-19/source.txt"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "approved.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [
+    "permission.requested",
+    "permission.granted"
+  ],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "approved.txt",
+          "content": "approved write\n"
+        }
+      }
+    ]
+  ],
+  "runner_type": "ipc",
+  "goal": "用 write_file 将 source.txt 的内容写到 approved.txt，等待客户端批准。"
+}

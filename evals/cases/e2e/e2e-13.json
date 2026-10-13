@@ -1,0 +1,79 @@
+{
+  "case_id": "e2e-13",
+  "name": "汇总 north.csv 和 south.csv 的 amount，写 summary.j",
+  "category": "multi_tool",
+  "fixtures": [
+    {
+      "source": "e2e-13"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "sum",
+      "column": "amount",
+      "sources": [
+        "e2e-13/north.csv",
+        "e2e-13/south.csv"
+      ]
+    },
+    {
+      "kind": "exists",
+      "path": "process.py"
+    },
+    {
+      "kind": "pytest",
+      "test_id": "pipeline"
+    },
+    {
+      "kind": "exact",
+      "path": "execution.txt",
+      "expected": "completed\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "process.py",
+        "summary.json",
+        "execution.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "read_file",
+        "input": {
+          "path": "north.csv"
+        }
+      }
+    ],
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "process.py",
+          "content": "import csv,json; from pathlib import Path; rows=[r for p in ['north.csv','south.csv'] for r in csv.DictReader(open(p))]; answer={'total':sum(float(r['amount']) for r in rows)}; Path('summary.json').write_text(json.dumps(answer)); print('completed')\n"
+        }
+      }
+    ],
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python process.py > execution.txt"
+        }
+      }
+    ]
+  ],
+  "goal": "汇总 north.csv 和 south.csv 的 amount，写 summary.json，格式为 total 字段的对象。先读取数据，再创建 process.py 执行计算。运行脚本，打印 completed 并将标准输出保存到 execution.txt。保留输入。"
+}

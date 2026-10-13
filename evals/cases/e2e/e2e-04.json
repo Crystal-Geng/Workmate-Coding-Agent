@@ -1,0 +1,53 @@
+{
+  "case_id": "e2e-04",
+  "name": "删除 draft.txt；keep.txt 与 protected.txt 字节内容必须保",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-04"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "composite",
+      "children": [
+        {
+          "kind": "absent",
+          "path": "draft.txt"
+        },
+        {
+          "kind": "hash",
+          "path": "keep.txt",
+          "source": "e2e-04/keep.txt"
+        }
+      ]
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "draft.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "pilot"
+  ],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'from pathlib import Path; Path('\"'\"'draft.txt'\"'\"').unlink()'"
+        }
+      }
+    ]
+  ],
+  "goal": "删除 draft.txt；keep.txt 与 protected.txt 字节内容必须保持原样。"
+}

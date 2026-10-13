@@ -1,0 +1,49 @@
+{
+  "case_id": "fault-runtime_error-1",
+  "name": "runtime_error scenario 1: 读取 source.txt，逐字复制到 output/greeting.txt，只创建此文",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-01"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "output/greeting.txt",
+      "source": "e2e-01/source.txt"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "output/greeting.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault"
+  ],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "output/greeting.txt",
+          "content": "Hello WorkMate\n"
+        }
+      }
+    ]
+  ],
+  "goal": "读取 source.txt，逐字复制到 output/greeting.txt，只创建此文件，保留其他文件。",
+  "fault_spec": {
+    "kind": "runtime_error",
+    "target": "write_file"
+  }
+}

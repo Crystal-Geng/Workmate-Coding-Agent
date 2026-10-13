@@ -1,0 +1,47 @@
+{
+  "case_id": "e2e-08",
+  "name": "读取 jan.json 与 feb.json，将 amount 求和写 summary.j",
+  "category": "summary",
+  "fixtures": [
+    {
+      "source": "e2e-08"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "json_sum",
+      "column": "amount",
+      "sources": [
+        "e2e-08/jan.json",
+        "e2e-08/feb.json"
+      ]
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "summary.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import json; from pathlib import Path; answer={'\"'\"'total'\"'\"':sum(json.loads(Path(p).read_text())['\"'\"'amount'\"'\"'] for p in ['\"'\"'jan.json'\"'\"','\"'\"'feb.json'\"'\"'])}; Path('\"'\"'summary.json'\"'\"').write_text(json.dumps(answer))'"
+        }
+      }
+    ]
+  ],
+  "goal": "读取 jan.json 与 feb.json，将 amount 求和写 summary.json 的 total 字段。 输入文件全部保持不变。"
+}

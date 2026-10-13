@@ -1,0 +1,11 @@
+{
+  "enabled": false,
+  "owner": "ops",
+  "nested": {
+    "retries": 4
+  },
+  "labels": [
+    "a",
+    "b"
+  ]
+}

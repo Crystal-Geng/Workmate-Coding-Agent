@@ -1,0 +1,344 @@
+[
+  {
+    "role": "user",
+    "content": "Constraint: 贷项单 CN-2026-0417"
+  },
+  {
+    "role": "assistant",
+    "content": "已记录；该项覆盖更早的冲突记录。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 1 份 source inventory 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-001",
+        "name": "read_file",
+        "input": {
+          "path": "records/source inventory-001.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-001",
+        "content": "Synthetic source inventory for credit note; record LOG-001. Cross-check status=0; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-001；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 2 份 requirement diff 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-002",
+        "name": "read_file",
+        "input": {
+          "path": "records/requirement diff-002.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-002",
+        "content": "Synthetic requirement diff for credit note; record LOG-002. Cross-check status=1; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-002；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 3 份 failed approach 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-003",
+        "name": "read_file",
+        "input": {
+          "path": "records/failed approach-003.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-003",
+        "content": "Synthetic failed approach for credit note; record LOG-003. Cross-check status=2; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-003；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "Constraint: 关联发票 INV-99107"
+  },
+  {
+    "role": "assistant",
+    "content": "已记录；该项覆盖更早的冲突记录。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 4 份 completed side effect 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-004",
+        "name": "read_file",
+        "input": {
+          "path": "records/completed side effect-004.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-004",
+        "content": "Synthetic completed side effect for credit note; record LOG-004. Cross-check status=3; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-004；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 5 份 authority check 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-005",
+        "name": "read_file",
+        "input": {
+          "path": "records/authority check-005.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-005",
+        "content": "Synthetic authority check for credit note; record LOG-005. Cross-check status=0; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-005；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 6 份 exception review 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-006",
+        "name": "read_file",
+        "input": {
+          "path": "records/exception review-006.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-006",
+        "content": "Synthetic exception review for credit note; record LOG-006. Cross-check status=1; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-006；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "Constraint: 冲减 219.40"
+  },
+  {
+    "role": "assistant",
+    "content": "已记录；该项覆盖更早的冲突记录。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 7 份 artifact inspection 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-007",
+        "name": "read_file",
+        "input": {
+          "path": "records/artifact inspection-007.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-007",
+        "content": "Synthetic artifact inspection for credit note; record LOG-007. Cross-check status=2; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-007；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 8 份 validation result 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-008",
+        "name": "read_file",
+        "input": {
+          "path": "records/validation result-008.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-008",
+        "content": "Synthetic validation result for credit note; record LOG-008. Cross-check status=3; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-008；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 9 份 pending action 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-009",
+        "name": "read_file",
+        "input": {
+          "path": "records/pending action-009.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-009",
+        "content": "Synthetic pending action for credit note; record LOG-009. Cross-check status=0; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-009；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  },
+  {
+    "role": "user",
+    "content": "Constraint: 税额 13.16 单列"
+  },
+  {
+    "role": "assistant",
+    "content": "已记录；该项覆盖更早的冲突记录。"
+  },
+  {
+    "role": "user",
+    "content": "继续 credit note：检查第 10 份 conflict resolution 记录，区分权威资料、失败方案、已完成副作用和待办项。"
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "history-010",
+        "name": "read_file",
+        "input": {
+          "path": "records/conflict resolution-010.txt"
+        }
+      }
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "tool_result",
+        "tool_use_id": "history-010",
+        "content": "Synthetic conflict resolution for credit note; record LOG-010. Cross-check status=1; this record does not override a later Constraint."
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "已核对 LOG-010；保留其来源关系与执行状态，最终决定仍以最新 Constraint 和明确例外为准。"
+  }
+]

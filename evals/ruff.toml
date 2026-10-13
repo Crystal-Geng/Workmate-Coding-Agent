@@ -1,0 +1,5 @@
+extend = "../pyproject.toml"
+extend-exclude = ["fixtures"]
+
+[lint.per-file-ignores]
+"build_cases.py" = ["E501"]

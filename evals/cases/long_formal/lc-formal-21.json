@@ -1,0 +1,77 @@
+{
+  "case_id": "lc-formal-21",
+  "name": "vendor comparison",
+  "category": "long_context",
+  "goal": "根据历史中的最终要求完成剩余任务，将精确结果写入 result.json；不要采用已废弃值或重复已完成副作用。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-21"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "result.json",
+      "expected": {
+        "vendor_a_total": 12400,
+        "vendor_b_total": 12852,
+        "winner": "A"
+      },
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "result.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "source.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-21.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "报价 A 为 12400 且含税",
+    "报价 B 为 11900 但另加 8% 税",
+    "比较含税总额",
+    "运费均为零"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "document_processing",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic task; not represented as a real project trace.",
+    "context_length_bucket": "long",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "result.json",
+          "content": "{\"vendor_a_total\": 12400, \"vendor_b_total\": 12852, \"winner\": \"A\"}"
+        }
+      }
+    ]
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "case_id": "fault-mcp_disconnect-1",
+  "name": "mcp_disconnect scenario 1: 读取 source.txt，逐字复制到 output/greeting.txt，只创建此文",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-01"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "mcp.txt",
+      "expected": "local-mcp-value-37\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "mcp.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault",
+    "local_mcp"
+  ],
+  "script": [
+    [
+      {
+        "name": "eval__lookup",
+        "input": {}
+      }
+    ]
+  ],
+  "goal": "场景 1：调用 eval__lookup 读取唯一数据来源，将结果加换行保存到 mcp.txt。服务不可用时请报告失败，不猜测数据。",
+  "fault_spec": {
+    "kind": "mcp_disconnect",
+    "target": "eval__lookup"
+  }
+}

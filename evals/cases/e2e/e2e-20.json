@@ -1,0 +1,62 @@
+{
+  "case_id": "e2e-20",
+  "name": "先申请用 write_file 向 ../boundary.txt 写入 changed。",
+  "category": "permission",
+  "fixtures": [
+    {
+      "source": "e2e-20"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "receipt.txt",
+      "expected": "denied\n"
+    },
+    {
+      "kind": "absent",
+      "path": "unauthorized.txt",
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "receipt.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [
+    "permission.requested",
+    "permission.denied"
+  ],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "../boundary.txt",
+          "content": "changed"
+        }
+      }
+    ],
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "receipt.txt",
+          "content": "denied\n"
+        }
+      }
+    ]
+  ],
+  "runner_type": "ipc",
+  "permission": "deny_outside",
+  "goal": "先申请用 write_file 向 ../boundary.txt 写入 changed。客户端将拒绝，拒绝后禁止绕过或再写外部文件，仅写本地 receipt.txt 内容 denied 加换行，然后结束。"
+}

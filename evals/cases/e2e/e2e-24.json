@@ -1,0 +1,44 @@
+{
+  "case_id": "e2e-24",
+  "name": "读取 entry.txt，追加到 journal.txt 恰好一次。客户端可能断线，不要重",
+  "category": "reconnect",
+  "fixtures": [
+    {
+      "source": "e2e-24"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "journal.txt",
+      "expected": "start\ntwo\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "journal.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import time; time.sleep(0.2); from pathlib import Path; p=Path('\"'\"'journal.txt'\"'\"'); p.write_text(p.read_text()+Path('\"'\"'entry.txt'\"'\"').read_text())'"
+        }
+      }
+    ]
+  ],
+  "runner_type": "ipc",
+  "reconnect": true,
+  "goal": "读取 entry.txt，追加到 journal.txt 恰好一次。客户端可能断线，不要重复追加，完成后结束。"
+}

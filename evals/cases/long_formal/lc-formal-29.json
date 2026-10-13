@@ -1,0 +1,79 @@
+{
+  "case_id": "lc-formal-29",
+  "name": "multi-file allocation contract",
+  "category": "long_context",
+  "goal": "依据历史中的最终接口契约修复 module.py 和 config.json，保持函数名 solve；不要修改 scenario.txt。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-29"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "pytest",
+      "test_id": "long_context_code",
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "module.py",
+        "config.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "scenario.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-29.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "按订单顺序分配库存",
+    "库存不足时允许最后一单部分满足",
+    "不得分配超过总库存"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "multi_file_code",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic multi-file task with evaluator-private tests.",
+    "context_length_bucket": "medium",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "module.py",
+          "content": "def solve(stock, orders):\n    result = []\n    for order in orders:\n        take = min(stock, order)\n        result.append(take)\n        stock -= take\n    return result\n"
+        }
+      },
+      {
+        "name": "write_file",
+        "input": {
+          "path": "config.json",
+          "content": "{\"allow_partial\": true, \"preserve_order\": true}"
+        }
+      }
+    ]
+  ]
+}

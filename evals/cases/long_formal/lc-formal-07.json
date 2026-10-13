@@ -1,0 +1,78 @@
+{
+  "case_id": "lc-formal-07",
+  "name": "payment reconciliation",
+  "category": "long_context",
+  "goal": "根据历史中的最终要求完成剩余任务，将精确结果写入 result.json；不要采用已废弃值或重复已完成副作用。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-07"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "result.json",
+      "expected": {
+        "transaction": "TXN-7Q4-2026",
+        "gross": 18432.75,
+        "currency": "CNY",
+        "excluded_fee": 32.75
+      },
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "result.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "source.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-07.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "交易号必须为 TXN-7Q4-2026",
+    "金额为 18432.75",
+    "币种为 CNY",
+    "手续费 32.75 不计入净额"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "exact_information",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic task; not represented as a real project trace.",
+    "context_length_bucket": "short",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "result.json",
+          "content": "{\"transaction\": \"TXN-7Q4-2026\", \"gross\": 18432.75, \"currency\": \"CNY\", \"excluded_fee\": 32.75}"
+        }
+      }
+    ]
+  ]
+}

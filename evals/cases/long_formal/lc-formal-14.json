@@ -1,0 +1,79 @@
+{
+  "case_id": "lc-formal-14",
+  "name": "customer dispatch",
+  "category": "long_context",
+  "goal": "根据历史中的最终要求完成剩余任务，将精确结果写入 result.json；不要采用已废弃值或重复已完成副作用。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-14"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "result.json",
+      "expected": {
+        "side_effect_done": "email sent",
+        "delivery_id": "DL-8821",
+        "remaining": [
+          "archive receipt",
+          "close ticket"
+        ]
+      },
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "result.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "source.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-14.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "邮件已发送，禁止再次发送",
+    "delivery_id 为 DL-8821",
+    "只剩归档回执与关闭工单"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "workflow",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic task; not represented as a real project trace.",
+    "context_length_bucket": "medium",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "result.json",
+          "content": "{\"side_effect_done\": \"email sent\", \"delivery_id\": \"DL-8821\", \"remaining\": [\"archive receipt\", \"close ticket\"]}"
+        }
+      }
+    ]
+  ]
+}

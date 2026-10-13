@@ -1,0 +1,79 @@
+{
+  "case_id": "lc-formal-28",
+  "name": "multi-file cache contract",
+  "category": "long_context",
+  "goal": "依据历史中的最终接口契约修复 module.py 和 config.json，保持函数名 solve；不要修改 scenario.txt。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-28"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "pytest",
+      "test_id": "long_context_code",
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "module.py",
+        "config.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "scenario.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-28.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "键格式为 METHOD:path:sorted_query",
+    "query 参数按键排序并用 & 连接",
+    "config.json 同步 separator 与 sort_query"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "multi_file_code",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic multi-file task with evaluator-private tests.",
+    "context_length_bucket": "short",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "module.py",
+          "content": "def solve(method, path, params):\n    query = '&'.join(f'{key}={params[key]}' for key in sorted(params))\n    return f'{method}:{path}:{query}'\n"
+        }
+      },
+      {
+        "name": "write_file",
+        "input": {
+          "path": "config.json",
+          "content": "{\"sort_query\": true, \"separator\": \":\"}"
+        }
+      }
+    ]
+  ]
+}

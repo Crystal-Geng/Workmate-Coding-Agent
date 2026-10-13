@@ -1,0 +1,42 @@
+{
+  "case_id": "e2e-11",
+  "name": "修复 solution.py，只有 active 字段严格为布尔 True 的记录被保留，",
+  "category": "code_fix",
+  "fixtures": [
+    {
+      "source": "e2e-11"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "pytest",
+      "test_id": "filter"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "solution.py"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "solution.py",
+          "content": "def solve(rows):\n    return [r for r in rows if r.get('active') is True]\n"
+        }
+      }
+    ]
+  ],
+  "goal": "修复 solution.py，只有 active 字段严格为布尔 True 的记录被保留，不能修改输入。"
+}

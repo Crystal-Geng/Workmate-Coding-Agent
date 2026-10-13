@@ -1,0 +1,79 @@
+{
+  "case_id": "e2e-15",
+  "name": "读取两个 CSV，合并去重 id 并按字典序排序，写 summary.json 的 ids",
+  "category": "multi_tool",
+  "fixtures": [
+    {
+      "source": "e2e-15"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "join",
+      "column": "id",
+      "sources": [
+        "e2e-15/north.csv",
+        "e2e-15/south.csv"
+      ]
+    },
+    {
+      "kind": "exists",
+      "path": "process.py"
+    },
+    {
+      "kind": "pytest",
+      "test_id": "pipeline"
+    },
+    {
+      "kind": "exact",
+      "path": "execution.txt",
+      "expected": "completed\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "process.py",
+        "summary.json",
+        "execution.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "read_file",
+        "input": {
+          "path": "north.csv"
+        }
+      }
+    ],
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "process.py",
+          "content": "import csv,json; from pathlib import Path; rows=[r for p in ['north.csv','south.csv'] for r in csv.DictReader(open(p))]; answer={'ids':sorted(set(r['id'] for r in rows))}; Path('summary.json').write_text(json.dumps(answer)); print('completed')\n"
+        }
+      }
+    ],
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python process.py > execution.txt"
+        }
+      }
+    ]
+  ],
+  "goal": "读取两个 CSV，合并去重 id 并按字典序排序，写 summary.json 的 ids 数组。先读取数据，再创建 process.py 执行计算。运行脚本，打印 completed 并将标准输出保存到 execution.txt。保留输入。"
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "e2e-05",
+  "name": "汇总 north.csv 和 south.csv 的 amount，写 summary.j",
+  "category": "summary",
+  "fixtures": [
+    {
+      "source": "e2e-05"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "sum",
+      "column": "amount",
+      "sources": [
+        "e2e-05/north.csv",
+        "e2e-05/south.csv"
+      ]
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "summary.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "pilot"
+  ],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import csv,json; from pathlib import Path; rows=[r for p in ['\"'\"'north.csv'\"'\"','\"'\"'south.csv'\"'\"'] for r in csv.DictReader(open(p))]; answer={'\"'\"'total'\"'\"':sum(float(r['\"'\"'amount'\"'\"']) for r in rows)}; Path('\"'\"'summary.json'\"'\"').write_text(json.dumps(answer))'"
+        }
+      }
+    ]
+  ],
+  "goal": "汇总 north.csv 和 south.csv 的 amount，写 summary.json，格式为 total 字段的对象。 输入文件全部保持不变。"
+}

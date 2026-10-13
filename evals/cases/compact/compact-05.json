@@ -1,0 +1,64 @@
+{
+  "case_id": "compact-05",
+  "name": "长上下文订单交付 5",
+  "category": "compact",
+  "fixtures": [
+    {
+      "source": "compact-05"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "delivery_5/receipt.json",
+      "expected": {
+        "order_ref_5": "ORDER-0005-X9",
+        "amount": 100005,
+        "status": "complete"
+      },
+      "constraint": true
+    },
+    {
+      "kind": "absent",
+      "path": "legacy.txt",
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "delivery_5/receipt.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "required_events": [],
+  "forbidden_changes": [
+    "protected.txt",
+    "completed.txt"
+  ],
+  "tags": [
+    "compact"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints/compact-05.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "delivery_5/receipt.json",
+          "content": "{\"order_ref_5\": \"ORDER-0005-X9\", \"amount\": 100005, \"status\": \"complete\"}"
+        }
+      }
+    ]
+  ],
+  "goal": "完成历史中剩余的收据任务，使用最终字段名、精确订单 ID 和金额，增加 status=complete。遵守所有历史约束。"
+}

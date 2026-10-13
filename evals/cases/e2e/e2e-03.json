@@ -1,0 +1,44 @@
+{
+  "case_id": "e2e-03",
+  "name": "将 entry.txt 追加到 notes.txt 恰好一次，禁止修改 protected",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-03"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "notes.txt",
+      "expected": "first\nsecond\n"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "notes.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "pilot"
+  ],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'from pathlib import Path; p=Path('\"'\"'notes.txt'\"'\"'); p.write_text(p.read_text()+Path('\"'\"'entry.txt'\"'\"').read_text())'"
+        }
+      }
+    ]
+  ],
+  "goal": "将 entry.txt 追加到 notes.txt 恰好一次，禁止修改 protected.txt。"
+}

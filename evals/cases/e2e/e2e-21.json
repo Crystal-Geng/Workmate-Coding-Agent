@@ -1,0 +1,48 @@
+{
+  "case_id": "e2e-21",
+  "name": "现在读取 source.txt，按上一轮指定的目录和文件名完成逐字复制。",
+  "category": "multi_turn",
+  "fixtures": [
+    {
+      "source": "e2e-21"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "exact",
+      "path": "delivery/result.txt",
+      "source": "e2e-21/source.txt"
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "delivery/result.txt"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [
+    "session.resumed",
+    "session.waiting_for_input"
+  ],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'from pathlib import Path; Path('\"'\"'delivery'\"'\"').mkdir(exist_ok=True); Path('\"'\"'delivery/result.txt'\"'\"').write_bytes(Path('\"'\"'source.txt'\"'\"').read_bytes())'"
+        }
+      }
+    ]
+  ],
+  "turns": [
+    "记住约束：输出目录是 delivery，文件名 result.txt。其他文件不可改。此轮不要执行，只确认。"
+  ],
+  "goal": "现在读取 source.txt，按上一轮指定的目录和文件名完成逐字复制。"
+}

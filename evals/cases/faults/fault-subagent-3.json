@@ -1,0 +1,74 @@
+{
+  "case_id": "fault-subagent-3",
+  "name": "subagent scenario 3: 必须调用真实前台 SubAgent 完成以下计算，并核对其文件产物：读取两个 CSV，合并",
+  "category": "subagent",
+  "fixtures": [
+    {
+      "source": "e2e-18"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "join",
+      "column": "id",
+      "sources": [
+        "e2e-18/north.csv",
+        "e2e-18/south.csv"
+      ]
+    },
+    {
+      "kind": "events",
+      "event": "subagent.finished",
+      "event_fields": {
+        "status": "success"
+      }
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "summary.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [
+    "subagent.started",
+    "subagent.finished"
+  ],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault"
+  ],
+  "script": [
+    [
+      {
+        "name": "spawn_agent",
+        "input": {
+          "description": "compute fixture summary",
+          "prompt": "读取两个 CSV，合并去重 id 并按字典序排序，写 summary.json 的 ids 数组。"
+        }
+      }
+    ]
+  ],
+  "child_script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import csv,json; from pathlib import Path; rows=[r for p in ['\"'\"'north.csv'\"'\"','\"'\"'south.csv'\"'\"'] for r in csv.DictReader(open(p))]; answer={'\"'\"'ids'\"'\"':sorted(set(r['\"'\"'id'\"'\"'] for r in rows))}; Path('\"'\"'summary.json'\"'\"').write_text(json.dumps(answer))'"
+        }
+      }
+    ]
+  ],
+  "goal": "必须调用真实前台 SubAgent 完成以下计算，并核对其文件产物：读取两个 CSV，合并去重 id 并按字典序排序，写 summary.json 的 ids 数组。",
+  "fault_spec": {
+    "kind": "subagent",
+    "target": "spawn_agent"
+  }
+}

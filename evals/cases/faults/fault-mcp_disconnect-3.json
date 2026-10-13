@@ -1,0 +1,50 @@
+{
+  "case_id": "fault-mcp_disconnect-3",
+  "name": "mcp_disconnect scenario 3: 将 entry.txt 追加到 notes.txt 恰好一次，禁止修改 protected",
+  "category": "files",
+  "fixtures": [
+    {
+      "source": "e2e-01"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "json",
+      "path": "mcp.json",
+      "expected": {
+        "value": "local-mcp-value-37"
+      }
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "mcp.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [
+    "fault",
+    "local_mcp",
+    "mcp_json"
+  ],
+  "script": [
+    [
+      {
+        "name": "eval__lookup",
+        "input": {}
+      }
+    ]
+  ],
+  "goal": "调用 eval__lookup，将返回字符串作为 value 字段保存到 mcp.json。不可用时报告失败，不猜测数据。",
+  "fault_spec": {
+    "kind": "mcp_disconnect",
+    "target": "eval__lookup"
+  }
+}

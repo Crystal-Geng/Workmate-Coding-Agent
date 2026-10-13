@@ -1,0 +1,76 @@
+{
+  "case_id": "lc-formal-01",
+  "name": "export handoff",
+  "category": "long_context",
+  "goal": "根据历史中的最终要求完成剩余任务，将精确结果写入 result.json；不要采用已废弃值或重复已完成副作用。",
+  "fixtures": [
+    {
+      "source": "long/lc-formal-01"
+    }
+  ],
+  "timeout_seconds": 180,
+  "max_steps": 20,
+  "graders": [
+    {
+      "kind": "json",
+      "path": "result.json",
+      "expected": {
+        "format": "json",
+        "directory": "exports/final",
+        "timezone": "UTC"
+      },
+      "constraint": true
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "result.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "source.txt"
+  ],
+  "tags": [
+    "long_context",
+    "formal"
+  ],
+  "compact_spec": {
+    "checkpoint": "checkpoints-long/lc-formal-01.json",
+    "branches": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "required_history_facts": [
+    "输出改为 JSON，不再生成 YAML",
+    "目录改为 exports/final",
+    "所有时间使用 UTC"
+  ],
+  "metadata": {
+    "split": "formal",
+    "task_type": "requirement_change",
+    "source": "synthetic",
+    "source_note": "Purpose-built synthetic task; not represented as a real project trace.",
+    "context_length_bucket": "short",
+    "key_fact_positions": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "dataset_version": "long-context-v2"
+  },
+  "script": [
+    [
+      {
+        "name": "write_file",
+        "input": {
+          "path": "result.json",
+          "content": "{\"format\": \"json\", \"directory\": \"exports/final\", \"timezone\": \"UTC\"}"
+        }
+      }
+    ]
+  ]
+}

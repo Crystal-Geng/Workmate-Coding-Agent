@@ -1,0 +1,68 @@
+{
+  "case_id": "e2e-17",
+  "name": "必须调用真实前台 SubAgent 完成以下计算，并核对其文件产物：按 region 汇总",
+  "category": "subagent",
+  "fixtures": [
+    {
+      "source": "e2e-17"
+    }
+  ],
+  "graders": [
+    {
+      "kind": "csv",
+      "path": "summary.json",
+      "operation": "group_sum",
+      "column": "amount",
+      "sources": [
+        "e2e-17/north.csv",
+        "e2e-17/south.csv"
+      ]
+    },
+    {
+      "kind": "events",
+      "event": "subagent.finished",
+      "event_fields": {
+        "status": "success"
+      }
+    },
+    {
+      "kind": "changes",
+      "allowed": [
+        "summary.json"
+      ],
+      "constraint": true
+    }
+  ],
+  "forbidden_changes": [
+    "protected.txt"
+  ],
+  "required_events": [
+    "subagent.started",
+    "subagent.finished"
+  ],
+  "timeout_seconds": 120,
+  "max_steps": 20,
+  "tags": [],
+  "script": [
+    [
+      {
+        "name": "spawn_agent",
+        "input": {
+          "description": "compute fixture summary",
+          "prompt": "按 region 汇总两个 CSV 的 amount，写 summary.json，键为 region，值为合计。"
+        }
+      }
+    ]
+  ],
+  "child_script": [
+    [
+      {
+        "name": "bash",
+        "input": {
+          "command": "python -c 'import csv,json; from pathlib import Path; rows=[r for p in ['\"'\"'north.csv'\"'\"','\"'\"'south.csv'\"'\"'] for r in csv.DictReader(open(p))]; answer={g:sum(float(r['\"'\"'amount'\"'\"']) for r in rows if r['\"'\"'region'\"'\"']==g) for g in {r['\"'\"'region'\"'\"'] for r in rows}}; Path('\"'\"'summary.json'\"'\"').write_text(json.dumps(answer))'"
+        }
+      }
+    ]
+  ],
+  "goal": "必须调用真实前台 SubAgent 完成以下计算，并核对其文件产物：按 region 汇总两个 CSV 的 amount，写 summary.json，键为 region，值为合计。"
+}
