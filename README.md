@@ -68,9 +68,9 @@ uv run workmate-tui
 
 ```text
 在 workspace/ 下创建一个 Hello World Python 脚本。
+```
 
 ![Workmate 执行任务](docs/images/Task.png)
-```
 
 界面会实时显示模型回复、工具调用和执行结果。任务完成后，可以继续输入消息追问或安排下一步任务。
 
